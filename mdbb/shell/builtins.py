@@ -3,12 +3,12 @@ from . import CommandResponse
 from core.events import EventBus
 
 import os
-import time
+import threading
 
 @Shell.command("help", "Show this help message", "help [command]", [{"name": "command", "description": "The command to show help for", "required": False}])
 def help_command(ctx, command):
     if command is None:
-        messages = ["[] - Optional  /  <> - Required", "Available commands:"]
+        messages = ["Available commands:", ""]
 
         for command in Shell.commands:
             messages.append(f"{command['id']}: {command['description']}")
@@ -49,3 +49,16 @@ def clear_command(ctx):
 def sync_command(ctx):
     EventBus.signal("mdbb.sync")
     ctx.logger.info("Command synchronization requested")
+
+@Shell.command("threads", "List all active threads", "threads")
+def threads_command(ctx):
+    threads = threading.enumerate()
+    
+    out = ["Active threads:", ""]
+
+    for thread in threads:
+        func = thread._target.__name__ if thread._target is not None else thread.ident
+        func_loc = thread._target.__module__ if thread._target is not None else "N/A"
+
+        out.append(f"{thread.name} - {func} ({func_loc})")
+    return CommandResponse(out)

@@ -3,5 +3,6 @@ ConfigTemplate = {
     "DEVMODE": True,
     
     "BOT.TOKEN": None,
-    "BOT.PREFIX": "!"
+    "BOT.PREFIX": "!",
+    "BOT.AUTOSYNC": True,
 }

@@ -1,4 +1,4 @@
-from mdbb import Bot, EventLogger, EventBus
+from mdbb import Bot, EventLogger, EventBus, Config
 
 import sys
 from discord.ext import commands, tasks
@@ -16,7 +16,12 @@ async def on_ready():
     for cog in COGS:
         await Bot.add_cog(cog())
 
-    await Bot.tree.sync()
+    if Config.get("BOT.AUTOSYNC"):
+        try:
+            EventLogger.info("Synchronizing slash commands")
+            await Bot.tree.sync()
+        except Exception as error:
+            EventBus.signal("error", error, "Cogs", "Error while synchronizing slash commands")
 
     task_queue_loop.start()
 
