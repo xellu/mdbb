@@ -14,6 +14,7 @@ class Example(commands.Cog):
         await ctx.reply(message)
 
     #example slash command
-    @app_commands.command(name="example", description="An example slash")
+    @app_commands.command(name="example", description="Example slash command")
+    @app_commands.describe(message="The message to send")
     async def example_slash(self, ctx: discord.Interaction, message: str = "Hello, World!"):
         await ctx.response.send_message(message, ephemeral=True)

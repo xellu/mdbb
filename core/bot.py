@@ -5,7 +5,7 @@ from . import Config
 from .events import EventBus
 
 Bot =  commands.Bot(command_prefix=Config.get("BOT.PREFIX"), intents=discord.Intents.all()) 
-Slash = Bot.tree
+Tree = Bot.tree
 
 def run():
     try:

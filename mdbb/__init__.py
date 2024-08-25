@@ -1,4 +1,4 @@
-from core.bot import Bot, Slash
+from core.bot import Bot, Tree
 from core import Config
 from core.events import EventBus
 from core.logging import LoggingManager

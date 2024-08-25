@@ -44,3 +44,8 @@ def stop_command(ctx, *args, **kwargs):
 def clear_command(ctx):
     os.system("cls" if os.name == "nt" else "clear")
     return "Console was cleared, log file was not affected"
+
+@Shell.command("sync", "Sync the slash commands", "sync")
+def sync_command(ctx):
+    EventBus.signal("mdbb.sync")
+    ctx.logger.info("Command synchronization requested")
