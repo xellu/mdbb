@@ -1,6 +1,8 @@
 from .. import Shell
 from . import CommandResponse
 from core.events import EventBus
+from core import Release, Config
+from core.shared import Banner
 
 import os
 import threading
@@ -29,7 +31,18 @@ def help_command(ctx, command):
                 "", "Arguments:",
                 *[f"{arg['name']} - {arg['description']} {'(required)' if arg['required'] else '(optional)'}" for arg in command['arguments']]
             ])
-        
+    
+@Shell.command("about", "Show information about MDBB", "about")
+def about_command(ctx):
+    print(Banner)
+    ctx.logger.info(f"Running {Config.get('SERVER.NAME')}, version {Release}")
+    
+    ctx.logger.info("Infomation")
+    ctx.logger.success("Success")
+    ctx.logger.warning("Warning")
+    ctx.logger.error("Error")
+    ctx.logger.debug("Debug")
+
 @Shell.command("stop", "Stop the mdbb service", "stop [--force]")
 def stop_command(ctx, *args, **kwargs):
     if kwargs.get("force", False):
