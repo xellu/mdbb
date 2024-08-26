@@ -13,8 +13,6 @@ except Exception as error:
 
 #event handlers------
 
-Bot.tree.allowed_installs = app_commands.AppInstallationType(guild=Config.get("BOT.INSTALLS.SERVER"), user=Config.get("BOT.INSTALLS.USER"))
-
 #bot setup
 @Bot.event
 async def on_ready():
