@@ -2,19 +2,28 @@ from mdbb import Bot, EventLogger, EventBus, Config
 
 import sys
 from discord.ext import commands, tasks
+from discord import app_commands
 
 #add cogs here ⬇️
-from . import (example)
-COGS = [example.Example] 
+try:
+    from . import (example)
+    COGS = [example.Example] 
+except Exception as error:
+    EventBus.signal("error", error, "Cogs", "Error while importing cogs", fatal=True)
 
 #event handlers------
+
+Bot.tree.allowed_installs = app_commands.AppInstallationType(guild=Config.get("BOT.INSTALLS.SERVER"), user=Config.get("BOT.INSTALLS.USER"))
 
 #bot setup
 @Bot.event
 async def on_ready():
     #cogs injection
     for cog in COGS:
-        await Bot.add_cog(cog())
+        try:
+            await Bot.add_cog(cog())
+        except Exception as error:
+            EventBus.signal("error", error, "Cogs", f"Error while injecting cog {cog.__name__}", fatal=True)
 
     if Config.get("BOT.AUTOSYNC"):
         try:

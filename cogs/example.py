@@ -1,6 +1,5 @@
 from discord.ext import commands
 from discord import app_commands
-import discord
 
 from mdbb import Bot
 
@@ -14,7 +13,8 @@ class Example(commands.Cog):
         await ctx.reply(message)
 
     #example slash command
-    @app_commands.command(name="example", description="Example slash command")
+    @app_commands.command(name="example", description="An example slash command")
     @app_commands.describe(message="The message to send")
-    async def example_slash(self, ctx: discord.Interaction, message: str = "Hello, World!"):
+    @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+    async def example_slash(self, ctx, message: str = "Hello, World!"):
         await ctx.response.send_message(message, ephemeral=True)
