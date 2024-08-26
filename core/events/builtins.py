@@ -3,7 +3,7 @@ from core.logging import LoggingManager
 
 import traceback
 import threading
-import os, time
+import os
 
 logger = LoggingManager("Core.Events")
 
